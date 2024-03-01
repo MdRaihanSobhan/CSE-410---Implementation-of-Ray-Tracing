@@ -16,7 +16,6 @@ public:
 
     void sortTriangle(); // sort the triangle in ascending order of y coordinates
     
-    void resetColor(); // reset the color of the triangle
     // getter and setter
     void setTriangle(vectorPoint3D a, vectorPoint3D b, vectorPoint3D c);
     void setColor(color clr);
@@ -90,9 +89,6 @@ void triangle::sortTriangle() {
     }
 }
 
-void triangle::resetColor() {
-    clr.setColor();
-}
 
 // getter and setter
 void triangle::setTriangle(vectorPoint3D a, vectorPoint3D b, vectorPoint3D c) {
@@ -198,6 +194,8 @@ double triangle::findIntersection(ray r, color &col, int depth) {
 // outputstream
 ostream& operator<<(ostream& os, triangle& t) {
     os << t.a << t.b << t.c;
+    os << t.clr.r<<" "<<t.clr.g<<" "<<t.clr.b<<endl;
+    os << t.ambient << " " << t.diffuse << " " << t.specular << " " << t.reflection << " " << t.shininess << endl;
     return os;
 }
 // inputstream

@@ -71,7 +71,7 @@ double sphere::findIntersection(ray r, color &col, int depth)
 istream& operator>>(istream& is, sphere& s)
 {
     is >> s.ref_point >> s.length;
-    is >> s.clr;
+    is>>s.clr; 
     is >> s.ambient >> s.diffuse >> s.specular>> s.reflection >> s.shininess;
     return is;
 }
@@ -80,7 +80,7 @@ ostream& operator<<(ostream& os, sphere& s)
 {
     os << "sphere" << endl;
     os << s.ref_point << " " << s.length << endl;
-    os << s.clr << endl;
+    os << s.clr.r<<" "<<s.clr.g<<" "<<s.clr.b<<endl;
     os << s.ambient << " " << s.diffuse << " " << s.specular << " " << s.reflection << " " << s.shininess << endl;
     return os;
 }

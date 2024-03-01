@@ -297,7 +297,6 @@ void loadData(){
 
         object *obj; 
         if(objectType == "sphere"){
-            cout<<"sphere got"<<endl; 
             obj = new sphere();
             sceneFile >> *((sphere*)obj); 
             outputFile<<*((sphere*)obj)<<endl;
@@ -305,6 +304,7 @@ void loadData(){
         else if(objectType == "triangle"){
             obj = new triangle();
             sceneFile >> *((triangle*)obj); 
+            outputFile<<*((triangle*)obj)<<endl;
         }
         else if(objectType == "general"){
             obj = new general();
@@ -319,17 +319,21 @@ void loadData(){
 
     int noOfpoint_lights;
     sceneFile >> noOfpoint_lights;
+    outputFile<<noOfpoint_lights<<endl;
     for(int i=0; i<noOfpoint_lights; i++){
         pointLight *pl = new pointLight();
         sceneFile >> *pl;
+        outputFile<<*pl<<endl;
         point_lights.push_back(pl);
     }
 
     int noOfspot_lights;
     sceneFile >> noOfspot_lights;
+    outputFile<<noOfspot_lights<<endl;
     for(int i=0; i<noOfspot_lights; i++){
         spotLight *sl = new spotLight();
         sceneFile >> *sl;
+        outputFile<<*sl<<endl;
         spot_lights.push_back(sl);
     }
 

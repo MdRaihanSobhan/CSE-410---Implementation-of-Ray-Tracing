@@ -16,26 +16,15 @@
 using namespace std;
 
 
-
-static unsigned long int g_seed = 1;
-inline int getRandomNumber()
-{
-    g_seed = (214013 * g_seed + 2531011);
-
-    return (g_seed >> 16) & 0x7FFF;
-}
-
-
-
-
 #define pi acos(-1.0)
 class color
 {
 public:
-    int r,g,b;
+    double r,g,b;
     color(/* args */);
-    color(int r, int g, int b); 
-    void setColor(); 
+    color(double r, double g, double b);
+
+    void setColor(double r, double g, double b); 
     // overload the * operator
     color operator*(double k); 
     // overload the + operator
@@ -54,17 +43,19 @@ color::color(/* args */)
     b=0;
 }
 
-color::color(int r, int g, int b)
+color::color(double r, double g, double b)
 {
     this->r = r;
     this->g = g;
     this->b = b;
 }
 
-void color::setColor() {
-    r = getRandomNumber();
-    g = getRandomNumber();
-    b = getRandomNumber();
+
+void color::setColor(double r, double g, double b)
+{
+    this->r = r;
+    this->g = g;
+    this->b = b;
 }
 
 color color::operator*(double k)
@@ -81,6 +72,7 @@ ostream &operator<<(ostream &os, color &clr)
 {
     os << "Color: " << clr.r << " " << clr.g << " " << clr.b << endl;
     return os;
+
 }
 
 istream &operator>>(istream &is, color &clr)
