@@ -107,3 +107,7 @@ istream &operator>>(istream &is, spotLight &sl)
     sl.setAngle(angle);
     return is;
 }
+
+spotLight::~spotLight()
+{
+}
