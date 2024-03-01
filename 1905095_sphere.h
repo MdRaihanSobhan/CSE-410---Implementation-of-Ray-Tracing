@@ -10,6 +10,8 @@ public:
 
     // input stream
     friend istream& operator>>(istream& is, sphere& s);
+    // output stream
+    friend ostream& operator<<(ostream& os, sphere& s);
     // destructor
     ~sphere();
 }; 
@@ -72,6 +74,15 @@ istream& operator>>(istream& is, sphere& s)
     is >> s.clr;
     is >> s.ambient >> s.diffuse >> s.specular>> s.reflection >> s.shininess;
     return is;
+}
+
+ostream& operator<<(ostream& os, sphere& s)
+{
+    os << "sphere" << endl;
+    os << s.ref_point << " " << s.length << endl;
+    os << s.clr << endl;
+    os << s.ambient << " " << s.diffuse << " " << s.specular << " " << s.reflection << " " << s.shininess << endl;
+    return os;
 }
 
 sphere::~sphere()

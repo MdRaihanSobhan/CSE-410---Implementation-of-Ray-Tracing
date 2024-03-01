@@ -274,29 +274,33 @@ void animate(){
 
 void loadData(){
     ifstream sceneFile;
+    // output file
+    ofstream outputFile;
+    outputFile.open("Output_1.txt");
     sceneFile.open("scene.txt");
     sceneFile >> recursion_depth; 
     sceneFile >> pictureHeight; 
     pictureWidth = pictureHeight;
 
-    cout<<recursion_depth<<" "<<pictureHeight<<endl;
+    outputFile<<recursion_depth<<" "<<pictureHeight<<endl;
 
     int noOfObjects;
     sceneFile >> noOfObjects;
 
-    cout<<noOfObjects<<endl;
+    outputFile<<noOfObjects<<endl;
 
     for(int i=0; i<noOfObjects; i++){
         string objectType;
         sceneFile >> objectType;
 
-        cout<<objectType<<endl; 
+        outputFile<<objectType<<endl; 
 
         object *obj; 
         if(objectType == "sphere"){
             cout<<"sphere got"<<endl; 
             obj = new sphere();
             sceneFile >> *((sphere*)obj); 
+            outputFile<<*((sphere*)obj)<<endl;
         }
         else if(objectType == "triangle"){
             obj = new triangle();
