@@ -1,20 +1,20 @@
-#include "1905095_vector3D.h"
+#include "1905095_ray.h"
 #include "1905095_color.h"
 class pointLight
 {
 private:
-    vector3D position;
+    vectorPoint3D position;
     color clr;
 
 public:
     pointLight();
-    pointLight(vector3D position, color clr);
+    pointLight(vectorPoint3D position, color clr);
     pointLight(const pointLight &pl); // copy constructor
 
     // getter and setter
-    void setPosition(vector3D position);
+    void setPosition(vectorPoint3D position);
     void setColor(color clr);
-    vector3D getPosition();
+    vectorPoint3D getPosition();
     color getColor();
 
     // draw the point light
@@ -30,11 +30,11 @@ public:
 
 pointLight::pointLight()
 {
-    position = vector3D();
+    position = vectorPoint3D();
     clr = color();
 }
 
-pointLight::pointLight(vector3D position, color clr)
+pointLight::pointLight(vectorPoint3D position, color clr)
 {
     this->position = position;
     this->clr = clr;
@@ -48,7 +48,7 @@ pointLight::pointLight(const pointLight &pl)
 
 // getter and setter
 
-void pointLight::setPosition(vector3D position)
+void pointLight::setPosition(vectorPoint3D position)
 {
     this->position = position;
 }
@@ -56,10 +56,11 @@ void pointLight::setColor(color clr)
 {
     this->clr = clr;
 }
-vector3D pointLight::getPosition()
+vectorPoint3D pointLight::getPosition()
 {
     return position;
 }
+
 color pointLight::getColor()
 {
     return clr;
@@ -88,4 +89,8 @@ istream &operator>>(istream &is, pointLight &pl)
 {
     is >> pl.position >> pl.clr;
     return is;
+}
+
+pointLight::~pointLight()
+{
 }

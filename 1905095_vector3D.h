@@ -20,24 +20,24 @@
 #define pi acos(-1.0)
 using namespace std;
 
-class vector3D{
+class vectorPoint3D{
 public:
     double x,y,z; // coordinates of the vector
     double scaleDownFactor; // scale down factor for the vector
 
-    vector3D();
-    vector3D(double x, double y, double z);
-    vector3D(double x, double y, double z, double scaleDownFactor);
+    vectorPoint3D();
+    vectorPoint3D(double x, double y, double z);
+    vectorPoint3D(double x, double y, double z, double scaleDownFactor);
     //copy constructor
-    vector3D(const vector3D &v); 
+    vectorPoint3D(const vectorPoint3D &v); 
     // operator overloading
-    vector3D operator+(const vector3D &v);
-    vector3D operator-(const vector3D &v);
-    vector3D operator*(double constant);
-    vector3D operator/(double constant);
-    vector3D operator=(const vector3D &v);
-    double operator*(const vector3D &v); // dot product
-    vector3D operator^(const vector3D &v); // cross product
+    vectorPoint3D operator+(const vectorPoint3D &v);
+    vectorPoint3D operator-(const vectorPoint3D &v);
+    vectorPoint3D operator*(double constant);
+    vectorPoint3D operator/(double constant);
+    vectorPoint3D operator=(const vectorPoint3D &v);
+    double operator*(const vectorPoint3D &v); // dot product
+    vectorPoint3D operator^(const vectorPoint3D &v); // cross product
 
     void scaleDown();
     double length();
@@ -53,17 +53,17 @@ public:
     double getScaleDownFactor();
     
     // outputstream 
-    friend ostream& operator<<(ostream& os, vector3D& v);
+    friend ostream& operator<<(ostream& os, vectorPoint3D& v);
     // inputstream
-    friend istream& operator>>(istream& is, vector3D& v);
+    friend istream& operator>>(istream& is, vectorPoint3D& v);
 
     // apply Rodrigues' rotation formula
-    friend vector3D applyRodrigues(vector3D& v, vector3D& k, double theta); 
+    friend vectorPoint3D applyRodrigues(vectorPoint3D& v, vectorPoint3D& k, double theta); 
 
-    ~vector3D();
+    ~vectorPoint3D();
 };
 
-vector3D::vector3D()
+vectorPoint3D::vectorPoint3D()
 {
     x=0;
     y=0;
@@ -71,7 +71,7 @@ vector3D::vector3D()
     scaleDownFactor=1;
 }
 
-vector3D::vector3D(double x, double y, double z)
+vectorPoint3D::vectorPoint3D(double x, double y, double z)
 {
     this->x=x;
     this->y=y;
@@ -79,7 +79,7 @@ vector3D::vector3D(double x, double y, double z)
     scaleDownFactor=0.1;
 }
 
-vector3D::vector3D(double x, double y, double z, double scaleDownFactor)
+vectorPoint3D::vectorPoint3D(double x, double y, double z, double scaleDownFactor)
 {
     this->x=x;
     this->y=y;
@@ -88,7 +88,7 @@ vector3D::vector3D(double x, double y, double z, double scaleDownFactor)
 }
 
 //copy constructor
-vector3D::vector3D(const vector3D &v) {
+vectorPoint3D::vectorPoint3D(const vectorPoint3D &v) {
     x = v.x;
     y = v.y;
     z = v.z;
@@ -96,52 +96,52 @@ vector3D::vector3D(const vector3D &v) {
 }
 
 // operator overloading
-vector3D vector3D::operator+(const vector3D &v) {
-    vector3D temp = vector3D(x+v.x, y+v.y, z+v.z);
+vectorPoint3D vectorPoint3D::operator+(const vectorPoint3D &v) {
+    vectorPoint3D temp = vectorPoint3D(x+v.x, y+v.y, z+v.z);
     return temp;
 }
-vector3D vector3D::operator-(const vector3D &v) {
-    vector3D temp = vector3D(x-v.x, y-v.y, z-v.z);
+vectorPoint3D vectorPoint3D::operator-(const vectorPoint3D &v) {
+    vectorPoint3D temp = vectorPoint3D(x-v.x, y-v.y, z-v.z);
     return temp;
 }
-vector3D vector3D::operator*(double constant) {
-    vector3D temp = vector3D(x*constant, y*constant, z*constant);
+vectorPoint3D vectorPoint3D::operator*(double constant) {
+    vectorPoint3D temp = vectorPoint3D(x*constant, y*constant, z*constant);
     return temp;
 }
-vector3D vector3D::operator/(double constant) {
+vectorPoint3D vectorPoint3D::operator/(double constant) {
     if(constant == 0) {
-        return vector3D(0,0,0);
+        return vectorPoint3D(0,0,0);
     }
-    vector3D temp = vector3D(x/constant, y/constant, z/constant);
+    vectorPoint3D temp = vectorPoint3D(x/constant, y/constant, z/constant);
     return temp;
 }
-vector3D vector3D::operator=(const vector3D &v) {
+vectorPoint3D vectorPoint3D::operator=(const vectorPoint3D &v) {
     x = v.x;
     y = v.y;
     z = v.z;
     scaleDownFactor = v.scaleDownFactor;
     return *this;
 }
-double vector3D::operator*(const vector3D &v) {
+double vectorPoint3D::operator*(const vectorPoint3D &v) {
     return x*v.x + y*v.y + z*v.z;
 }
-vector3D vector3D::operator^(const vector3D &v) {
-    vector3D temp = vector3D(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x);
+vectorPoint3D vectorPoint3D::operator^(const vectorPoint3D &v) {
+    vectorPoint3D temp = vectorPoint3D(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x);
     return temp;
 }
 
-void vector3D::scaleDown(){
+void vectorPoint3D::scaleDown(){
     x/=scaleDownFactor;
     y/=scaleDownFactor;
     z/=scaleDownFactor;
     scaleDownFactor=1;
 }
 
-double vector3D::length(){
+double vectorPoint3D::length(){
     return sqrt(x*x+y*y+z*z);
 }
 
-void vector3D::normalize(){
+void vectorPoint3D::normalize(){
     double len=length();
     x/=len;
     y/=len;
@@ -149,47 +149,47 @@ void vector3D::normalize(){
 }
 
 // getter and setter
-void vector3D::setVector(double x, double y, double z) {
+void vectorPoint3D::setVector(double x, double y, double z) {
     this->x=x;
     this->y=y;
     this->z=z;
 }
-void vector3D::setScaleDownFactor(double scaleDownFactor) {
+void vectorPoint3D::setScaleDownFactor(double scaleDownFactor) {
     this->scaleDownFactor = scaleDownFactor;
 }
-double vector3D::getX() {
+double vectorPoint3D::getX() {
     return x;
 }
-double vector3D::getY() {
+double vectorPoint3D::getY() {
     return y;
 }
-double vector3D::getZ() {
+double vectorPoint3D::getZ() {
     return z;
 }
-double vector3D::getScaleDownFactor() {
+double vectorPoint3D::getScaleDownFactor() {
     return scaleDownFactor;
 }
 
 // outputstream
-ostream& operator<<(ostream& os, vector3D& v) {
+ostream& operator<<(ostream& os, vectorPoint3D& v) {
     os << fixed << setprecision(7) << v.x << " " << v.y << " " << v.z << endl; 
     return os;
 }
 // inputstream
-istream& operator>>(istream& is, vector3D& v) {
+istream& operator>>(istream& is, vectorPoint3D& v) {
     is >> v.x >> v.y >> v.z;
     v.scaleDownFactor = 1; // default scale down factor
     return is;
 }
 
 // apply Rodrigues' rotation formula
-vector3D applyRodrigues(vector3D &v, vector3D &k, double theta) { 
+vectorPoint3D applyRodrigues(vectorPoint3D &v, vectorPoint3D &k, double theta) { 
     k.normalize();
-    vector3D v1 = v*cos(theta*pi/180);
-    vector3D v2 = k*(k*v)*(1-cos(theta*pi/180));
-    vector3D v3 = (k^v)*sin(theta*pi/180);
+    vectorPoint3D v1 = v*cos(theta*pi/180);
+    vectorPoint3D v2 = k*(k*v)*(1-cos(theta*pi/180));
+    vectorPoint3D v3 = (k^v)*sin(theta*pi/180);
     return v1+v2+v3;
 }
-vector3D::~vector3D()
+vectorPoint3D::~vectorPoint3D()
 {
 }

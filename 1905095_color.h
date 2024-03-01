@@ -33,7 +33,12 @@ class color
 public:
     int r,g,b;
     color(/* args */);
+    color(int r, int g, int b); 
     void setColor(); 
+    // overload the * operator
+    color operator*(double k); 
+    // overload the + operator
+    color operator+(color clr); 
     // outputstream
     friend ostream &operator<<(ostream &os, color &clr);
     // inputstream
@@ -48,10 +53,27 @@ color::color(/* args */)
     b=0;
 }
 
+color::color(int r, int g, int b)
+{
+    this->r = r;
+    this->g = g;
+    this->b = b;
+}
+
 void color::setColor() {
     r = getRandomNumber();
     g = getRandomNumber();
     b = getRandomNumber();
+}
+
+color color::operator*(double k)
+{
+    return color(r*k, g*k, b*k);
+}
+
+color color::operator+(color clr)
+{
+    return color(r+clr.r, g+clr.g, b+clr.b);
 }
 
 ostream &operator<<(ostream &os, color &clr)

@@ -3,20 +3,20 @@
 class spotLight{
 private:
     pointLight point_light; // position and color of the point light
-    vector3D direction;
+    vectorPoint3D direction;
     double angle; // cut off angle of the spot light
 
 public:
     spotLight();
-    spotLight(pointLight point_light, vector3D direction, double angle);
+    spotLight(pointLight point_light, vectorPoint3D direction, double angle);
     spotLight(const spotLight &sl); // copy constructor
 
     // getter and setter
     void setPointLight(pointLight point_light);
-    void setDirection(vector3D direction);
+    void setDirection(vectorPoint3D direction);
     void setAngle(double angle);
     pointLight getPointLight();
-    vector3D getDirection();
+    vectorPoint3D getDirection();
     double getAngle();
 
     // draw the spot light
@@ -33,11 +33,11 @@ public:
 spotLight::spotLight()
 {
     point_light = pointLight();
-    direction = vector3D();
+    direction = vectorPoint3D();
     angle = 0;
 }
 
-spotLight::spotLight(pointLight point_light, vector3D direction, double angle)
+spotLight::spotLight(pointLight point_light, vectorPoint3D direction, double angle)
 {
     this->point_light = point_light;
     this->direction = direction;
@@ -57,7 +57,7 @@ void spotLight::setPointLight(pointLight point_light)
 {
     this->point_light = point_light;
 }
-void spotLight::setDirection(vector3D direction)
+void spotLight::setDirection(vectorPoint3D direction)
 {
     this->direction = direction;
 }
@@ -69,7 +69,7 @@ pointLight spotLight::getPointLight()
 {
     return point_light;
 }
-vector3D spotLight::getDirection()
+vectorPoint3D spotLight::getDirection()
 {
     return direction;
 }
@@ -99,7 +99,7 @@ ostream &operator<<(ostream &os, spotLight &sl)
 istream &operator>>(istream &is, spotLight &sl)
 {
     pointLight point_light;
-    vector3D direction;
+    vectorPoint3D direction;
     double angle;
     is >> point_light >> direction >> angle;
     sl.setPointLight(point_light);

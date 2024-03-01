@@ -13,24 +13,24 @@ using namespace std;
 class triangle 
 {
 private:
-    vector3D a,b,c; // coordinates of the triangle
+    vectorPoint3D a,b,c; // coordinates of the triangle
     color clr; // color of the triangle
 
 public:
     triangle();
-    triangle(vector3D a, vector3D b, vector3D c);
-    triangle(vector3D a, vector3D b, vector3D c, color clr);
+    triangle(vectorPoint3D a, vectorPoint3D b, vectorPoint3D c);
+    triangle(vectorPoint3D a, vectorPoint3D b, vectorPoint3D c, color clr);
     triangle(const triangle &t); // copy constructor
 
     void sortTriangle(); // sort the triangle in ascending order of y coordinates
     
     void resetColor(); // reset the color of the triangle
     // getter and setter
-    void setTriangle(vector3D a, vector3D b, vector3D c);
+    void setTriangle(vectorPoint3D a, vectorPoint3D b, vectorPoint3D c);
     void setColor(color clr);
-    vector3D getA();
-    vector3D getB();
-    vector3D getC();
+    vectorPoint3D getA();
+    vectorPoint3D getB();
+    vectorPoint3D getC();
     color getColor();
 
     // outputstream
@@ -43,13 +43,13 @@ public:
 
 triangle::triangle()
 {
-    a = vector3D();
-    b = vector3D();
-    c = vector3D();
+    a = vectorPoint3D();
+    b = vectorPoint3D();
+    c = vectorPoint3D();
     clr = color();
 }
 
-triangle::triangle(vector3D a, vector3D b, vector3D c)
+triangle::triangle(vectorPoint3D a, vectorPoint3D b, vectorPoint3D c)
 {
     this->a = a;
     this->b = b;
@@ -57,7 +57,7 @@ triangle::triangle(vector3D a, vector3D b, vector3D c)
     clr = color();
 }
 
-triangle::triangle(vector3D a, vector3D b, vector3D c, color clr)
+triangle::triangle(vectorPoint3D a, vectorPoint3D b, vectorPoint3D c, color clr)
 {
     this->a = a;
     this->b = b;
@@ -76,17 +76,17 @@ triangle::triangle(const triangle &t)
 
 void triangle::sortTriangle() {
     if (a.getY() > b.getY()) {
-        vector3D temp = a;
+        vectorPoint3D temp = a;
         a = b;
         b = temp;
     }
     if (a.getY() > c.getY()) {
-        vector3D temp = a;
+        vectorPoint3D temp = a;
         a = c;
         c = temp;
     }
     if (b.getY() > c.getY()) {
-        vector3D temp = b;
+        vectorPoint3D temp = b;
         b = c;
         c = temp;
     }
@@ -97,7 +97,7 @@ void triangle::resetColor() {
 }
 
 // getter and setter
-void triangle::setTriangle(vector3D a, vector3D b, vector3D c) {
+void triangle::setTriangle(vectorPoint3D a, vectorPoint3D b, vectorPoint3D c) {
     this->a = a;
     this->b = b;
     this->c = c;
@@ -107,15 +107,15 @@ void triangle::setColor(color clr) {
     this->clr = clr;
 }
 
-vector3D triangle::getA() {
+vectorPoint3D triangle::getA() {
     return a;
 }
 
-vector3D triangle::getB() {
+vectorPoint3D triangle::getB() {
     return b;
 }
 
-vector3D triangle::getC() {
+vectorPoint3D triangle::getC() {
     return c;
 }
 

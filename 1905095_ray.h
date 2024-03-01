@@ -3,20 +3,20 @@
 class ray
 {
 private:
-    vector3D origin;
-    vector3D direction;
+    vectorPoint3D origin;
+    vectorPoint3D direction;
 
 public:
     ray();
-    ray(vector3D origin, vector3D direction);
+    ray(vectorPoint3D origin, vectorPoint3D direction);
     ray(const ray &r); // copy constructor
 
     // getter and setter
-    void setRay(vector3D origin, vector3D direction);
-    void setOrigin(vector3D origin);
-    void setDirection(vector3D direction);
-    vector3D getOrigin();
-    vector3D getDirection();
+    void setRay(vectorPoint3D origin, vectorPoint3D direction);
+    void setOrigin(vectorPoint3D origin);
+    void setDirection(vectorPoint3D direction);
+    vectorPoint3D getOrigin();
+    vectorPoint3D getDirection();
 
     // outputstream
     friend ostream &operator<<(ostream &os, ray &r);
@@ -28,11 +28,11 @@ public:
 
 ray::ray()
 {
-    origin = vector3D();
-    direction = vector3D();
+    origin = vectorPoint3D();
+    direction = vectorPoint3D();
 }
 
-ray::ray(vector3D origin, vector3D direction)
+ray::ray(vectorPoint3D origin, vectorPoint3D direction)
 {
     this->origin = origin;
     direction.normalize();
@@ -46,26 +46,26 @@ ray::ray(const ray &r)
 }
 
 // getter and setter
-void ray::setRay(vector3D origin, vector3D direction)
+void ray::setRay(vectorPoint3D origin, vectorPoint3D direction)
 {
     this->origin = origin;
     direction.normalize();
     this->direction = direction;
 }
-void ray::setOrigin(vector3D origin)
+void ray::setOrigin(vectorPoint3D origin)
 {
     this->origin = origin;
 }
-void ray::setDirection(vector3D direction)
+void ray::setDirection(vectorPoint3D direction)
 {
     direction.normalize();
     this->direction = direction;
 }
-vector3D ray::getOrigin()
+vectorPoint3D ray::getOrigin()
 {
     return origin;
 }
-vector3D ray::getDirection()
+vectorPoint3D ray::getDirection()
 {
     return direction;
 }
@@ -80,7 +80,7 @@ ostream &operator<<(ostream &os, ray &r)
 // inputstream
 istream &operator>>(istream &is, ray &r)
 {
-    vector3D origin, direction;
+    vectorPoint3D origin, direction;
     is >> origin >> direction;
     r.setRay(origin, direction);
     return is;

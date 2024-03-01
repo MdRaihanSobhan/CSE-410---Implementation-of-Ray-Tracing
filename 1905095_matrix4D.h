@@ -23,14 +23,14 @@ public:
     matrix4D operator/(double constant);
     matrix4D operator=(const matrix4D &m);
     matrix4D operator*(const matrix4D &m); // matrix multiplication
-    vector3D operator*( vector3D &v); // matrix vector multiplication
+    vectorPoint3D operator*( vectorPoint3D &v); // matrix vector multiplication
     triangle operator*( triangle &t); // matrix triangle multiplication
 
     //matrix functions
     void identityMatrix();
-    void translationMatrix(vector3D v);
-    void scalingMatrix(vector3D v);
-    void rotationMatrix(vector3D v, double theta);
+    void translationMatrix(vectorPoint3D v);
+    void scalingMatrix(vectorPoint3D v);
+    void rotationMatrix(vectorPoint3D v, double theta);
 
     // getter and setter
     void setMatrix(double Matrix[4][4]);
@@ -136,7 +136,7 @@ matrix4D matrix4D::operator*(const matrix4D &m) {
     return temp;
 }
 
-vector3D matrix4D::operator*( vector3D &v) {
+vectorPoint3D matrix4D::operator*( vectorPoint3D &v) {
     double ara[4]={0,0,0,0};
     double ara2[4]={v.getX(), v.getY(), v.getZ(), v.getScaleDownFactor()};
     for(int i=0; i<4; i++) {
@@ -144,15 +144,15 @@ vector3D matrix4D::operator*( vector3D &v) {
             ara[i] += Matrix[i][j] * ara2[j];
         }
     }
-    vector3D temp = vector3D(ara[0], ara[1], ara[2], ara[3]);
+    vectorPoint3D temp = vectorPoint3D(ara[0], ara[1], ara[2], ara[3]);
     temp.scaleDown();
     return temp;
 }
 
 triangle matrix4D::operator*( triangle &t) {
-    vector3D a = t.getA();
-    vector3D b = t.getB();
-    vector3D c = t.getC();
+    vectorPoint3D a = t.getA();
+    vectorPoint3D b = t.getB();
+    vectorPoint3D c = t.getC();
 
     triangle temp = triangle((*this)*a, (*this)*b, (*this)*c, t.getColor());
     return temp;
@@ -172,30 +172,30 @@ void matrix4D::identityMatrix() {
     }
 }
 
-void matrix4D::translationMatrix(vector3D v) {
+void matrix4D::translationMatrix(vectorPoint3D v) {
     identityMatrix();
     Matrix[0][3] = v.getX();
     Matrix[1][3] = v.getY();
     Matrix[2][3] = v.getZ();
 }
 
-void matrix4D::scalingMatrix(vector3D v) {
+void matrix4D::scalingMatrix(vectorPoint3D v) {
     identityMatrix();
     Matrix[0][0] = v.getX();
     Matrix[1][1] = v.getY();
     Matrix[2][2] = v.getZ();
 }
 
-//rotation using Rodrigues' rotation function (friend function of vector3D class)
-void matrix4D::rotationMatrix(vector3D v, double theta) {
+//rotation using Rodrigues' rotation function (friend function of vectorPoint3D class)
+void matrix4D::rotationMatrix(vectorPoint3D v, double theta) {
     identityMatrix();
     v.normalize();
-    vector3D a(1.0,0.0,0.0); 
-    vector3D b(0.0,1.0,0.0);
-    vector3D c(0.0,0.0,1.0);
-    vector3D r1 = applyRodrigues(a, v, theta);
-    vector3D r2 = applyRodrigues(b, v, theta);
-    vector3D r3 = applyRodrigues(c, v, theta);
+    vectorPoint3D a(1.0,0.0,0.0); 
+    vectorPoint3D b(0.0,1.0,0.0);
+    vectorPoint3D c(0.0,0.0,1.0);
+    vectorPoint3D r1 = applyRodrigues(a, v, theta);
+    vectorPoint3D r2 = applyRodrigues(b, v, theta);
+    vectorPoint3D r3 = applyRodrigues(c, v, theta);
     Matrix[0][0] = r1.getX();
     Matrix[0][1] = r2.getX();
     Matrix[0][2] = r3.getX();
