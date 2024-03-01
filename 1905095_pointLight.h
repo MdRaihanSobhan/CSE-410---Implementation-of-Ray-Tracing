@@ -1,5 +1,4 @@
 #include "1905095_ray.h"
-#include "1905095_color.h"
 class pointLight
 {
 private:

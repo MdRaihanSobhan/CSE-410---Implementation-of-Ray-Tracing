@@ -11,9 +11,23 @@
 #include <iterator>
 #include <limits>
 #include <vector>
+#include<iomanip>
 
+#include <GL/glut.h>
+#ifdef _linux_
+    #include <GL/glut.h>
+#elif WIN32
+    #include <windows.h>
+    #include <glut.h>
+#elif _APPLE_
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glu.h>
+    #include <GLUT/glut.h>
+#endif
 
-using namespace std; 
+#define pi acos(-1.0)
+using namespace std;
+
 
 
 static unsigned long int g_seed = 1;

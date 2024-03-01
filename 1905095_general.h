@@ -4,7 +4,7 @@ class general : public object {
 public:
     double a, b, c, d, e, f, g, h, i, j;
     general(); 
-    virtual void drawObject();
+    virtual void draw();
     virtual ray getNormalAt(vectorPoint3D intersection_point, ray incident);
     virtual double findIntersection(ray r, color &col, int depth);
     bool checkInside(vectorPoint3D point);
@@ -17,7 +17,7 @@ general::general()
 {
 }
 
-void general::drawObject()
+void general::draw()
 {
     return; // do nothing
 }
@@ -87,4 +87,5 @@ istream &operator>>(istream &is, general &g)
     is>> g.ref_point >> g.length >> g.width >> g.height >> g.clr >> g.ambient >> g.diffuse >> g.specular >> g.reflection >> g.shininess;
     return is;
 }
+
 

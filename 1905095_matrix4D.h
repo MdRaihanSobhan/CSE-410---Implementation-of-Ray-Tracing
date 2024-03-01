@@ -1,9 +1,3 @@
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<stack>
-#include<cmath>
-#include<iomanip>
 #include "1905095_triangle.h" // triangle class
 #define pi acos(-1.0)
 using namespace std;

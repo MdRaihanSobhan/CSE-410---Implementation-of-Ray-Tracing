@@ -1,9 +1,3 @@
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<stack>
-#include<cmath>
-#include<iomanip>
 #include "1905095_general.h"
  // color class
 #define pi acos(-1.0)

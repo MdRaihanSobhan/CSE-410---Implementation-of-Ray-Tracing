@@ -1,24 +1,4 @@
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<stack>
-#include<cmath>
-#include<iomanip>
-
-#include <GL/glut.h>
-#ifdef _linux_
-    #include <GL/glut.h>
-#elif WIN32
-    #include <windows.h>
-    #include <glut.h>
-#elif _APPLE_
-    #include <OpenGL/gl.h>
-    #include <OpenGL/glu.h>
-    #include <GLUT/glut.h>
-#endif
-
-#define pi acos(-1.0)
-using namespace std;
+#include "1905095_color.h"
 
 class vectorPoint3D{
 public:
