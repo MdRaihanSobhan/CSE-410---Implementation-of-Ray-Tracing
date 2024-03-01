@@ -85,3 +85,7 @@ istream &operator>>(istream &is, ray &r)
     r.setRay(origin, direction);
     return is;
 }
+
+ray::~ray()
+{
+}

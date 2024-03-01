@@ -50,7 +50,7 @@ public:
     virtual double intersect(ray r, color &col, int depth); 
 
     // distructor
-    virtual ~object();
+    ~object();
 
 };
 

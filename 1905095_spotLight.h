@@ -32,9 +32,6 @@ public:
 
 spotLight::spotLight()
 {
-    point_light = pointLight();
-    direction = vectorPoint3D();
-    angle = 0;
 }
 
 spotLight::spotLight(pointLight point_light, vectorPoint3D direction, double angle)

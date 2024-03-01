@@ -1,17 +1,4 @@
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<stack>
-#include <cstdint>
-#include <cstdlib>  // For rand() function
-#include <algorithm>
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
-#include <iterator>
-#include <limits>
-#include <vector>
-#include<iomanip>
+#include<bits/stdc++.h>
 
 #include <GL/glut.h>
 #ifdef _linux_

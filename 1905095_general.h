@@ -11,6 +11,9 @@ public:
 
     //input stream
     friend istream &operator>>(istream &is, general &g);
+
+    // destructor
+    ~general();
 };
 
 general::general()
@@ -88,4 +91,6 @@ istream &operator>>(istream &is, general &g)
     return is;
 }
 
-
+general::~general()
+{
+}

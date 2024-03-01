@@ -29,8 +29,7 @@ public:
 
 pointLight::pointLight()
 {
-    position = vectorPoint3D();
-    clr = color();
+    
 }
 
 pointLight::pointLight(vectorPoint3D position, color clr)

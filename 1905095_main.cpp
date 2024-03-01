@@ -1,5 +1,9 @@
 #include "1905095_checkerBoard.h"
-#include "1905095_bitmap_image.hpp" 
+#include "bitmap_image.hpp" 
+#include <GL/glut.h>
+
+#include<bits/stdc++.h>
+using namespace std;
 
 bool drawCheckerBoard; 
 bool drawAxes; 
@@ -8,15 +12,15 @@ double cameraHeight;
 double cameraAngle;
 double angle; 
 
-int recursionDepth; 
+int recursion_depth; 
 int pictureWidth;
 int pictureHeight;
 
 bitmap_image picture; 
 
 vector<object*> objects;
-vector<pointLight*> pointLights;
-vector<spotLight*> spotLights;
+vector<pointLight*> point_lights;
+vector<spotLight*> spot_lights;
 
 vectorPoint3D cameraPos(100,0,5);
 vectorPoint3D cameraUp(0,0,1);
@@ -250,13 +254,15 @@ void display(){
     drawCheckerBoardFunc();
 
     for(int i=0; i<(int)objects.size(); i++){
-        objects[i]->draw();
+        object *obj = objects[i];
+        obj->draw();
     }
-    for(int i=0; i<(int)pointLights.size(); i++){
-        pointLights[i]->drawPointLight();
+    for(int i=0; i<(int)point_lights.size(); i++){
+        point_lights[i]->drawPointLight();
     }
-    for(int i=0; i<(int)spotLights.size(); i++){
-        spotLights[i]->drawSpotLight();
+    for(int i=0; i<(int)spot_lights.size(); i++){
+        spotLight* sl = spot_lights[i];
+        sl->drawSpotLight();
     }
 
     glutSwapBuffers();
@@ -273,15 +279,22 @@ void loadData(){
     sceneFile >> pictureHeight; 
     pictureWidth = pictureHeight;
 
+    cout<<recursion_depth<<" "<<pictureHeight<<endl;
+
     int noOfObjects;
     sceneFile >> noOfObjects;
+
+    cout<<noOfObjects<<endl;
 
     for(int i=0; i<noOfObjects; i++){
         string objectType;
         sceneFile >> objectType;
 
+        cout<<objectType<<endl; 
+
         object *obj; 
         if(objectType == "sphere"){
+            cout<<"sphere got"<<endl; 
             obj = new sphere();
             sceneFile >> *((sphere*)obj); 
         }
@@ -300,20 +313,20 @@ void loadData(){
         objects.push_back(obj);
     }
 
-    int noOfPointLights;
-    sceneFile >> noOfPointLights;
-    for(int i=0; i<noOfPointLights; i++){
+    int noOfpoint_lights;
+    sceneFile >> noOfpoint_lights;
+    for(int i=0; i<noOfpoint_lights; i++){
         pointLight *pl = new pointLight();
         sceneFile >> *pl;
-        pointLights.push_back(pl);
+        point_lights.push_back(pl);
     }
 
-    int noOfSpotLights;
-    sceneFile >> noOfSpotLights;
-    for(int i=0; i<noOfSpotLights; i++){
+    int noOfspot_lights;
+    sceneFile >> noOfspot_lights;
+    for(int i=0; i<noOfspot_lights; i++){
         spotLight *sl = new spotLight();
         sceneFile >> *sl;
-        spotLights.push_back(sl);
+        spot_lights.push_back(sl);
     }
 
     object *cb = new checkerBoard(400,10); 
@@ -330,6 +343,8 @@ void loadData(){
     cb->setReflection(reflection);
 
     objects.push_back(cb);
+
+    sceneFile.close();
 
 }
 
@@ -366,9 +381,9 @@ int main(int argc, char **argv){
 
     objects.clear();
     objects.shrink_to_fit();
-    pointLights.clear();
-    pointLights.shrink_to_fit();
-    spotLights.clear();
-    spotLights.shrink_to_fit();
+    point_lights.clear();
+    point_lights.shrink_to_fit();
+    spot_lights.clear();
+    spot_lights.shrink_to_fit();
     return 0;
 }
