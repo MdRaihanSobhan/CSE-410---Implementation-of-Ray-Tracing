@@ -7,7 +7,7 @@ public:
 
     checkerBoard();
     checkerBoard(int boardWidth, int squareWidth);
-    virtual color getColorAt(vectorPoint3D point);
+    virtual color getColor(vectorPoint3D point);
     virtual ray getNormalAt(vectorPoint3D point, ray incident);
     virtual void draw();
     virtual double findIntersection(ray r, color &col, int depth);
@@ -25,11 +25,10 @@ checkerBoard::checkerBoard(int boardWidth, int squareWidth)
     length = squareWidth;
 }
 
-color checkerBoard::getColorAt(vectorPoint3D point)
+color checkerBoard::getColor(vectorPoint3D point)
 {
     int x = (point.getX() - ref_point.getX())/length;
-    int y = (point.getY() - ref_point.getY())/length;
-    
+    int y = (point.getY() - ref_point.getY())/length;    
     if(x<0 || y<0 || x>=noOfSquares || y>=noOfSquares) return color(0, 0, 0);
 
     if((x+y)%2 == 0) return color(1, 1, 1);
