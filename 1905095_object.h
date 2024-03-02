@@ -166,7 +166,7 @@ double object::intersect(ray r, color &col, int depth)
     double t = findIntersection(r, col, depth);
 
     if(t<0) return -1;
-    if(depth <= 0) return t;
+    if(depth == 0) return t;
 
     // find intersection point 
     vectorPoint3D intersection = r.getOrigin() + r.getDirection() * t;
@@ -174,7 +174,9 @@ double object::intersect(ray r, color &col, int depth)
     color intersection_color = getColor(intersection);
 
     // update the color with ambient light
-    col = intersection_color * ambient;
+    col.r = intersection_color.r * ambient;
+    col.g = intersection_color.g * ambient;
+    col.b = intersection_color.b * ambient;
 
     for(int i=0; i<point_lights.size(); i++)
     {
@@ -196,7 +198,6 @@ double object::intersect(ray r, color &col, int depth)
         bool blocked = false;
         for(object *o : objects)
         {
-            if(o == this) continue;
             double t = o->findIntersection(incidentRay, col, 0);
             if(t > 0 && t+0.00001 < dist)
             {
@@ -209,16 +210,17 @@ double object::intersect(ray r, color &col, int depth)
         {
             double lambert = max(0.0,  incidentRay.getDirection()*normal.getDirection()*(-1));
             ray reflectionRay = ray(intersection, incidentRay.getDirection() - normal.getDirection() * 2 * (incidentRay.getDirection()*normal.getDirection()));
+
             double phong = max(0.0, reflectionRay.getDirection()*r.getDirection()*(-1));
             // update diffuse and specular 
-            col.r += (intersection_color.r * diffuse * lambert + point_lights[i]->getColor().r);
-            col.g += (intersection_color.g * diffuse * lambert + point_lights[i]->getColor().g);
-            col.b += (intersection_color.b * diffuse * lambert + point_lights[i]->getColor().b);
+            col.r += point_lights[i]->clr.r * diffuse * lambert * intersection_color.r;
+            col.r += point_lights[i]->clr.r * specular * pow(phong, shininess)*intersection_color.r;
 
-            col.r += (point_lights[i]->getColor().r * specular * pow(phong, shininess)*intersection_color.r);
-            col.g += (point_lights[i]->getColor().g * specular * pow(phong, shininess)*intersection_color.g);
-            col.b += (point_lights[i]->getColor().b * specular * pow(phong, shininess)*intersection_color.b);
+            col.g += point_lights[i]->clr.g * diffuse * lambert * intersection_color.g;
+            col.g += point_lights[i]->clr.g * specular * pow(phong, shininess)*intersection_color.g;
 
+            col.b += point_lights[i]->clr.b * diffuse * lambert * intersection_color.b;
+            col.b += point_lights[i]->clr.b * specular * pow(phong, shininess)*intersection_color.b;
         }
     }
 
@@ -238,8 +240,9 @@ double object::intersect(ray r, color &col, int depth)
             // cast a incident ray from the light to the intersection point
             ray incidentRay = ray(light_position, light_direction);
             ray normal = getNormalAt(intersection, incidentRay);
+            
+            ray reflectionRay = ray(intersection, incidentRay.getDirection() - normal.getDirection() * 2 * (incidentRay.getDirection()*normal.getDirection()));
 
-            // avoid self recursion
             double dist = (intersection - light_position).length();
             if(dist < 0.00001) continue;
 
@@ -259,16 +262,16 @@ double object::intersect(ray r, color &col, int depth)
             if(!blocked)
             {
                 double lambert = max(0.0,  incidentRay.getDirection()*normal.getDirection()*(-1));
-                ray reflectionRay = ray(intersection, incidentRay.getDirection() - normal.getDirection() * 2 * (incidentRay.getDirection()*normal.getDirection()));
                 double phong = max(0.0, reflectionRay.getDirection()*r.getDirection()*(-1));
                 // update diffuse and specular 
-                col.r += (intersection_color.r * diffuse * lambert + spot_lights[i]->getPointLight().getColor().r);
-                col.g += (intersection_color.g * diffuse * lambert + spot_lights[i]->getPointLight().getColor().g);
-                col.b += (intersection_color.b * diffuse * lambert + spot_lights[i]->getPointLight().getColor().b);
+                col.r+= spot_lights[i]->getPointLight().clr.r * diffuse * lambert * intersection_color.r;
+                col.r+= spot_lights[i]->getPointLight().clr.r * specular * pow(phong, shininess)*intersection_color.r;
 
-                col.r += (spot_lights[i]->getPointLight().getColor().r * specular * pow(phong, shininess)*intersection_color.r);
-                col.g += (spot_lights[i]->getPointLight().getColor().g * specular * pow(phong, shininess)*intersection_color.g);
-                col.b += (spot_lights[i]->getPointLight().getColor().b * specular * pow(phong, shininess)*intersection_color.b);
+                col.g+= spot_lights[i]->getPointLight().clr.g * diffuse * lambert * intersection_color.g;
+                col.g+= spot_lights[i]->getPointLight().clr.g * specular * pow(phong, shininess)*intersection_color.g;
+
+                col.b+= spot_lights[i]->getPointLight().clr.b * diffuse * lambert * intersection_color.b;
+                col.b+= spot_lights[i]->getPointLight().clr.b * specular * pow(phong, shininess)*intersection_color.b;
 
             }
         }
@@ -277,10 +280,9 @@ double object::intersect(ray r, color &col, int depth)
     if(depth< recursion_depth){
         ray normal = getNormalAt(intersection, r);
         ray reflectionRay = ray(intersection, r.getDirection() - normal.getDirection() * 2 * (r.getDirection()*normal.getDirection()));
-        reflectionRay.setOrigin(reflectionRay.getOrigin() + reflectionRay.getDirection() * 0.00001);
-
+        reflectionRay.origin = reflectionRay.origin + reflectionRay.direction*0.00001;
         int index = -1;
-        double min_t = 99999999;
+        double min_t = 1e9;
         double t = -1; 
         for(int i=0; i<(int)objects.size(); i++)
         {
@@ -294,7 +296,7 @@ double object::intersect(ray r, color &col, int depth)
         
         if(index != -1)
         {
-            color reflection_color = color();
+            color reflection_color(0,0,0);
             t = objects[index]->intersect(reflectionRay, reflection_color, depth+1);
             col.r += reflection_color.r * reflection;
             col.g += reflection_color.g * reflection;

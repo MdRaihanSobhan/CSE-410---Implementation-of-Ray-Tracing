@@ -80,8 +80,6 @@ void rotateCamera(vectorPoint3D &v,vectorPoint3D &axis, double angle){
 }
 
 void capture(){
-    cout << "SS Taken" << endl;
-
     for(int i=0; i<pictureWidth; i++){
         for(int j=0; j<pictureHeight; j++){
             picture.set_pixel(i, j, 0, 0, 0);
@@ -95,10 +93,8 @@ void capture(){
 
     double du = viewWidth/(1.0*pictureWidth);
     double dv = viewHeight/(1.0*pictureHeight);
-
     // mid of the pixel
     topLeft = topLeft + cameraRight*(du/2.0) - cameraUp*(dv/2.0);
-
     int objIndex = -1; 
     double t_min;
     double t;
@@ -106,10 +102,11 @@ void capture(){
     for(int i=0; i<pictureWidth; i++){
         for(int j=0; j<pictureHeight; j++){
             vectorPoint3D P = topLeft + cameraRight*i*du - cameraUp*j*dv;
-            ray r = ray(cameraPos, P - cameraPos);
-            color col = color(0, 0, 0);
+            ray r(cameraPos, P - cameraPos);
+            color col;
             t_min = -1;
             objIndex = -1;
+
             for(int k=0; k<(int)objects.size(); k++){
                 t = objects[k]->intersect(r, col, 0);
                 if(t>0 && (t<t_min || objIndex == -1)){
@@ -132,10 +129,11 @@ void capture(){
             }
         }
     }
+    
 
     picture.save_image("Output_1"+ to_string(pictureNo) + ".bmp");
     pictureNo++;
-    cout << "SS Saved" << endl;
+    cout<< "Image captured" << endl;
 }
 
 void keyboardListener(unsigned char key, int x,int y){
@@ -273,38 +271,31 @@ void animate(){
 }
 
 void loadData(){
-    ifstream sceneFile;
+    ifstream sceneFile("scene.txt");
     // output file
-    ofstream outputFile;
-    outputFile.open("Output_1.txt");
-    sceneFile.open("scene.txt");
+
     sceneFile >> recursion_depth; 
     sceneFile >> pictureHeight; 
     pictureWidth = pictureHeight;
 
-    outputFile<<recursion_depth<<" "<<pictureHeight<<endl;
 
     int noOfObjects;
     sceneFile >> noOfObjects;
 
-    outputFile<<noOfObjects<<endl;
 
     for(int i=0; i<noOfObjects; i++){
         string objectType;
         sceneFile >> objectType;
 
-        outputFile<<objectType<<endl; 
 
         object *obj; 
         if(objectType == "sphere"){
             obj = new sphere();
             sceneFile >> *((sphere*)obj); 
-            outputFile<<*((sphere*)obj)<<endl;
         }
         else if(objectType == "triangle"){
             obj = new triangle();
             sceneFile >> *((triangle*)obj); 
-            outputFile<<*((triangle*)obj)<<endl;
         }
         else if(objectType == "general"){
             obj = new general();
@@ -319,26 +310,22 @@ void loadData(){
 
     int noOfpoint_lights;
     sceneFile >> noOfpoint_lights;
-    outputFile<<noOfpoint_lights<<endl;
     for(int i=0; i<noOfpoint_lights; i++){
         pointLight *pl = new pointLight();
         sceneFile >> *pl;
-        outputFile<<*pl<<endl;
         point_lights.push_back(pl);
     }
 
     int noOfspot_lights;
     sceneFile >> noOfspot_lights;
-    outputFile<<noOfspot_lights<<endl;
     for(int i=0; i<noOfspot_lights; i++){
         spotLight *sl = new spotLight();
         sceneFile >> *sl;
-        outputFile<<*sl<<endl;
         spot_lights.push_back(sl);
     }
 
     object *cb = new checkerBoard(400,10); 
-    cb->setColor(color(0.6,0.6,0.6));
+    cb->setColor(color(0.5,0.5,0.5));
     
     double ambient = 0.4;
     double diffuse = 0.2;

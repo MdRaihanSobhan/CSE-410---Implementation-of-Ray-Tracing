@@ -1,12 +1,11 @@
 #include "1905095_pointLight.h"
 
 class spotLight{
-private:
+
+public:
     pointLight point_light; // position and color of the point light
     vectorPoint3D direction;
     double angle; // cut off angle of the spot light
-
-public:
     spotLight();
     spotLight(pointLight point_light, vectorPoint3D direction, double angle);
     spotLight(const spotLight &sl); // copy constructor
@@ -88,20 +87,15 @@ void spotLight::drawSpotLight()
 // outputstream
 ostream &operator<<(ostream &os, spotLight &sl)
 {
-    os << sl.point_light << " " << sl.direction << " " << sl.angle;
+    os<< sl.point_light.position << " " << sl.point_light.clr << " " << sl.direction << " " << sl.angle;
     return os;
 }
 
 // inputstream
 istream &operator>>(istream &is, spotLight &sl)
 {
-    pointLight point_light;
-    vectorPoint3D direction;
-    double angle;
-    is >> point_light >> direction >> angle;
-    sl.setPointLight(point_light);
-    sl.setDirection(direction);
-    sl.setAngle(angle);
+
+    is >> sl.point_light.position >> sl.point_light.clr >> sl.direction >> sl.angle;
     return is;
 }
 

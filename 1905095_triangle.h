@@ -118,11 +118,10 @@ color triangle::getColor() {
 }
 
 double triangle::determinant(double ara[3][3]) {
-    double det = 0;
-    for (int i=0; i<3; i++) {
-        det += ara[0][i]*(ara[1][(i+1)%3]*ara[2][(i+2)%3] - ara[1][(i+2)%3]*ara[2][(i+1)%3]);
-    }
-    return det;
+    double a = ara[0][0] * (ara[1][1]*ara[2][2] - ara[1][2]*ara[2][1]);
+    double b = ara[0][1] * (ara[1][0]*ara[2][2] - ara[1][2]*ara[2][0]);
+    double c = ara[0][2] * (ara[1][0]*ara[2][1] - ara[1][1]*ara[2][0]);
+    return a-b+c;
 }
 
 ray triangle::getNormalAt(vectorPoint3D point, ray incident) {

@@ -2,10 +2,11 @@
 class pointLight
 {
 private:
-    vectorPoint3D position;
-    color clr;
+
 
 public:
+    vectorPoint3D position;
+    color clr;
     pointLight();
     pointLight(vectorPoint3D position, color clr);
     pointLight(const pointLight &pl); // copy constructor
@@ -86,6 +87,7 @@ ostream &operator<<(ostream &os, pointLight &pl)
 istream &operator>>(istream &is, pointLight &pl)
 {
     is >> pl.position >> pl.clr;
+    
     return is;
 }
 

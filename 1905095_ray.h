@@ -3,10 +3,11 @@
 class ray
 {
 private:
-    vectorPoint3D origin;
-    vectorPoint3D direction;
+
 
 public:
+    vectorPoint3D origin;
+    vectorPoint3D direction;
     ray();
     ray(vectorPoint3D origin, vectorPoint3D direction);
     ray(const ray &r); // copy constructor
