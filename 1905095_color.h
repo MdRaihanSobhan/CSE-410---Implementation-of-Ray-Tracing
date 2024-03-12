@@ -85,4 +85,3 @@ color::~color()
 {
 }
 
-
