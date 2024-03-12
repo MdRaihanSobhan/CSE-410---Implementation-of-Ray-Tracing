@@ -137,6 +137,7 @@ void capture(){
 }
 
 void keyboardListener(unsigned char key, int x,int y){
+    angle = pi/180; 
     switch(key){
 
         case '1':
@@ -248,7 +249,7 @@ void display(){
 
     glMatrixMode(GL_MODELVIEW);
 
-    drawAxesFunc();
+    // drawAxesFunc();
     drawCheckerBoardFunc();
 
     for(int i=0; i<(int)objects.size(); i++){
